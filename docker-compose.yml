@@ -1,0 +1,32 @@
+﻿version: '3.2'
+
+services:
+
+  laravel:
+    image: git.febacapital.com:5050/feba/images/php71:web
+    restart: always
+    labels:
+      - traefik.http.routers.oimenu-laravel.rule=Host(`laravel.oimenu.test`)
+    volumes:
+      - ./:/app
+    environment:
+      - PROJECT_WEBROOT=/public
+
+    networks:
+      dev-network:
+        ipv4_address: 172.27.0.50
+
+  console-lara:
+      image: git.febacapital.com:5050/feba/images/php71:cli
+      restart: always
+      labels:
+        - traefik.enable=false
+      volumes:
+        - ./:/app
+        - ~/.ssh/:/root/.ssh/
+        - ~/.ssh/:/root/.ssh/
+
+networks:
+  dev-network:
+    external: true
+
